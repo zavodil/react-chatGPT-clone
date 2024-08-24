@@ -29,12 +29,35 @@ const Home = () => {
       setResponseFromAPI(true); // Indicate that a response is being awaited
 
       try {
-        const response = await fetch("http://localhost:4000/respond", {
+        let userAuthorization = localStorage.getItem("user")
+
+        let messages = chatLog.map(item => ({
+          role: !!item.bot ? 'assistant' : 'user',
+          content: item.chatPrompt
+        }));
+
+        messages.push({
+          role: 'user', content: inputPrompt
+        })
+
+        let input = {
+          max_tokens: 128,
+          temperature: 0.1,
+          frequency_penalty: 0,
+          n: 1,
+          messages: messages,
+              model: 'mixtral-8x22b-instruct',
+              provider: 'fireworks'
+        }
+
+        const response = await fetch("https://api.near.ai/v1/chat/completions", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: inputPrompt }),
+          headers: { "Content-Type": "application/json", "Authorization": userAuthorization },
+          body: JSON.stringify(input),
         });
         const data = await response.json();
+
+        data.botResponse = data.choices[0].message.content;
 
         // Update chat log with the new response
         setChatLog((prevChatLog) => [

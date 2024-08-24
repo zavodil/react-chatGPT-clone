@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import "../signup/signupform.css";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, goggleAuthProvider } from "../../firebase.config";
+// import { auth, goggleAuthProvider } from "../../firebase.config";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import SvgComponent from "../SvgComponent";
@@ -16,40 +16,40 @@ const SignupForm = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
-      let userCredential = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      );
-      const user = userCredential.user;
-      dispatch({ type: "LOGIN", payload: user });
-      // once user is signed in navigate them to the home page
-      navigate("/");
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-      setErrorMessage(errorMessage);
-    }
+    // e.preventDefault();
+    //
+    // try {
+    //   let userCredential = await signInWithEmailAndPassword(
+    //     auth,
+    //     loginEmail,
+    //     loginPassword
+    //   );
+    //   const user = userCredential.user;
+    //   dispatch({ type: "LOGIN", payload: user });
+    //   // once user is signed in navigate them to the home page
+    //   navigate("/");
+    // } catch (error) {
+    //   const errorCode = error.code;
+    //   const errorMessage = error.message;
+    //   console.log(errorCode, errorMessage);
+    //   setErrorMessage(errorMessage);
+    // }
   };
 
   const handleSignInWithGoggle = async () => {
-    try {
-      let userCredential = await signInWithPopup(auth, goggleAuthProvider);
-      const user = userCredential.user;
-      dispatch({ type: "LOGIN", payload: user });
-      console.log("user", user);
-      // once user is signed in navigate them to the home page
-      navigate("/");
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-      setErrorMessage(errorMessage);
-    }
+    // try {
+    //   let userCredential = await signInWithPopup(auth, goggleAuthProvider);
+    //   const user = userCredential.user;
+    //   dispatch({ type: "LOGIN", payload: user });
+    //   console.log("user", user);
+    //   // once user is signed in navigate them to the home page
+    //   navigate("/");
+    // } catch (error) {
+    //   const errorCode = error.code;
+    //   const errorMessage = error.message;
+    //   console.log(errorCode, errorMessage);
+    //   setErrorMessage(errorMessage);
+    // }
   };
 
   return (

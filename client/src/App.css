@@ -252,6 +252,7 @@ nav svg {
 
 .openaiSVG {
   transform: scale(0.5);
+  width: 36px
 }
 #avatar {
   display: flex;

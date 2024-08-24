@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "../components/Button";
 import SvgComponent from "../components/SvgComponent";
 import SignupForm from "../components/signup/SignUpForm";
+import {PLAIN_MSG, RECIPIENT, NONCE, getCallbackUrl, generateNonce} from '../context/data';
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -10,11 +11,21 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleClick = async (purpose) => {
-    if (purpose === "signup") {
-      setIsSignupFormVisible(true);
-    }
     if (purpose === "login") {
-      navigate("/login");
+      // navigate("/login");
+
+      let nonce = generateNonce();
+
+      const urlParams = new URLSearchParams({
+        message: PLAIN_MSG,
+        recipient: RECIPIENT,
+        nonce,
+        callbackUrl: getCallbackUrl(),
+      });
+
+      localStorage.setItem("nonce", nonce);
+
+      window.location.replace(`https://auth.near.ai/?${urlParams.toString()}`);
     }
   };
 
@@ -27,11 +38,7 @@ const Login = () => {
             <h1>Welcome to Talkbot</h1>
             <p>Your Ultimate AI Assistant</p>
             <div className="loginButtonWrapper">
-              <Button text="Log in" handleClick={() => handleClick("login")} />
-              <Button
-                text="Sign up"
-                handleClick={() => handleClick("signup")}
-              />
+              <Button text="Log in with NEAR" handleClick={() => handleClick("login")} />
             </div>
           </div>
         </div>
